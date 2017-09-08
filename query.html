@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>查找密码</title>
+	<head>
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+	  $("input.sou_btn").click(function(){
+	  	var pstr = $("#phoneNumber").val();
+	  	 var len =  pstr.length;
+	  	if(len != 11)
+	  	{
+	  		alert("输入11位手机号码");
+	  		return;
+	  	}
+
+	  	$("p").text("");
+	 	 // $(this).hide();
+		 $.ajax({
+			type:"get",
+			timeout:20000,
+			data:{phoneNumber:$("#phoneNumber").val()},
+			url:"http://192.168.47.178:3000",/*url写异域的请求地址*/
+			// url:"https://www.baidu.com",/*url写异域的请求地址*/
+			dataType:"jsonp",/*加上datatype*/
+			jsonpCallback:"cb",/*设置一个回调函数，名字随便取，和下面的函数里的名字相同就行*/			
+			success:function(json){
+				var password = json.password;
+				$("p").text("password:" + password)
+				// alert(password);
+			},
+			error:function()
+			{
+				alert("failed");	
+			}
+	 	});
+
+	  });
+	});
+
+	function cb(result,methodName)
+	{
+		// alert("ok");
+	}
+	</script>
+
+
+
+</head>
+	<style type="text/css">						
+		.logo{
+			width: 270px;
+			height: 129px;
+			position:relative;
+			left:50%;
+			margin-left: -135px;
+
+		}
+
+		#backgroundColor{
+			/*background-color: red;*/
+		}
+		/*div { margin: 0px; }*/
+		#container
+		{
+			background-color: #fff;
+			clear: both;
+		}
+		.s_input
+		{
+			width: 450px;
+			/*background-color: green;*/
+			position: relative;	
+			left: 0px;
+/*			text-align: center; */
+			padding: 9px 7px;
+			border: 3px solid #b8b8b8
+			/*height:20px;*/
+			/*margin: 0px;*/
+			/*outline:none;*/
+			/*box-shadow: none;*/
+			vertical-align: top;
+			/*border-top-width: 1px;*/
+			/*border-top-style: inset;*/
+			letter-spacing: normal;
+			margin-left: 1px;
+
+			/*margin-right:76px;*/
+
+
+		}
+
+		.sou_btn
+		{
+			line-height: 38px;
+			width:102px;
+			height: 38px;
+			font-size: 16px;
+			background-color: #38f;
+			padding: 0;
+			border: 0;
+			color: white;
+			cursor: auto;			
+			vertical-align: top;
+			text-align: center;
+			-webkit-user-select: text;
+
+			/*-webkit-appearance:button; /* Safari and Chrome */*/
+		}
+
+	</style>
+		<!-- position:absolute; -->
+
+</head>
+
+<body>
+<div id="container">	
+<!-- 	<div >  
+		<img class="logo" src="../image/baidu.png">
+	</div>	 -->
+
+	<div style="margin: 0 auto 0 auto;width: 580px;text-align: left; padding: 0px;">
+		<form style="" method="GET" target = '192.168.47.178:3000' >
+			<!-- <span class="sou_btn"></span> -->
+			<input type="text" id="phoneNumber" name="searchWord" maxlength="11" class="s_input">
+			<span>
+				<!-- <input type="submit" class="sou_btn" value="密码查找"> -->
+				<input type="button" class="sou_btn" value="密码查找">
+			</span>
+			<input type="hidden" name="page" value="baidu">
+		</form>
+	</div>	
+	<p></p>
+
+	<!-- $("p").append("Some appended text."); -->
+
+</body>
+</html>
